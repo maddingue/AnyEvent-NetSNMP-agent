@@ -184,8 +184,8 @@ print STDERR "- tree_handler\n";
 
 
 #
-# ev_add_oid_entry()
-# ----------------
+# add_oid_entry()
+# -------------
 sub add_oid_entry {
     my ($self, $oid, $type, $value) = @_;
 print STDERR "- add_oid_entry($oid, $type, $value)\n";
@@ -207,8 +207,8 @@ print STDERR "- add_oid_entry($oid, $type, $value)\n";
 
 
 #
-# ev_add_oid_tree()
-# ---------------
+# add_oid_tree()
+# ------------
 sub add_oid_tree {
     my ($self, $new_tree) = @_;
 print STDERR "- add_oid_tree\n";
