@@ -61,7 +61,7 @@ sub new {
 
     # register our tree handler when asked to do so
     $self->register($args{Name}, $args{AutoHandle}, \&tree_handler)
-        if $args{AutoHandler};
+        if $args{AutoHandle};
 
     # find the sockets used to communicate with AgentX master..
     my ($block, $to_sec, $to_usec, @fd_set) = SNMP::_get_select_info();
