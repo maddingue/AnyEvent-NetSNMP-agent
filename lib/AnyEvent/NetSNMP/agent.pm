@@ -72,6 +72,13 @@ sub new {
         );
     }
 
+    # regularly check the AgentX socket
+    push @watchers, AnyEvent->timer(
+        after       => 0,
+        interval    => $args{Ping},
+        cb          => sub { agent_check($self) },
+    );
+
     # set up the timers for the OID tree update handlers
     my $update_handlers = $args{AutoUpdate};
     for my $def (@$update_handlers) {
