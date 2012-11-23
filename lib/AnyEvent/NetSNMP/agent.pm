@@ -54,6 +54,7 @@ sub new {
     my %attr = (
         args        => \%args,
         _watchers   => \@watchers,
+        agent       => $agent,
         oid_tree    => {},
         oid_list    => [],
     );
