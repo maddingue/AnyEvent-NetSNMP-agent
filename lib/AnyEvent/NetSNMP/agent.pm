@@ -64,11 +64,18 @@ sub new {
     $self->register($args{Name}, $args{AutoHandle}, \&tree_handler)
         if $args{AutoHandle};
 
+    my $agent_check = sub {
+print STDERR "- agent_check\n";
+	SNMP::_check_timeout();
+	$self->{agent}->agent_check_and_process(0);
+	return $self;
+    };
+
     # find the sockets used to communicate with AgentX master..
     my ($block, $to_sec, $to_usec, @fd_set) = SNMP::_get_select_info();
     for my $fd (@fd_set) {
         push @watchers, AnyEvent->io(
-            fh => $fd,  poll => "r",  cb => sub { agent_check($self) },
+            fh => $fd,  poll => "r",  cb => $agent_check,
         );
     }
 
@@ -76,7 +83,7 @@ sub new {
     push @watchers, AnyEvent->timer(
         after       => 0,
         interval    => $args{Ping},
-        cb          => sub { agent_check($self) },
+        cb          => $agent_check,
     );
 
     # set up the timers for the OID tree update handlers
@@ -103,21 +110,6 @@ print STDERR "- register ($name, $oid, $callback)\n";
 
     $self->{agent}->register($name, $oid, sub { $callback->($self, [@_]) })
         or croak "error: can't register callback\n";
-
-    return $self
-}
-
-
-#
-# agent_check()
-# -----------
-sub agent_check {
-    my ($self) = @_;
-print STDERR "- agent_check\n";
-
-    # process the incoming data and invoke the callback
-    SNMP::_check_timeout();
-    $self->{agent}->agent_check_and_process(0);
 
     return $self
 }
