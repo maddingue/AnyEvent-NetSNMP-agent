@@ -66,9 +66,9 @@ sub new {
 
     my $agent_check = sub {
 print STDERR "- agent_check\n";
-	SNMP::_check_timeout();
-	$self->{agent}->agent_check_and_process(0);
-	return $self;
+        SNMP::_check_timeout();
+        $self->{agent}->agent_check_and_process(0);
+        return $self;
     };
 
     # find the sockets used to communicate with AgentX master..
