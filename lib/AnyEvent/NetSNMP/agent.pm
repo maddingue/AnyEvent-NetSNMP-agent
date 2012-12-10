@@ -138,6 +138,8 @@ print STDERR "- tree_handler\n";
 
     for (my $request = $requests; $request; $request = $request->next) {
         my $oid = $request->getOID->as_oid;
+my %xlm = ( MODE_GET,=> "get", MODE_GETNEXT,=> "getnext" );
+print STDERR "- tree_handler: mode=$xlm{$mode}, oid=$oid\n";
 
         if ($mode == MODE_GET) {
             if (exists $oid_tree->{$oid}) {
