@@ -34,7 +34,7 @@ sub new {
         # defaults
         Name    => "perl",
         AgentX  => 0,
-        Ping    => 10,
+        Ping    => 60,
 
         # given args
         @_,
